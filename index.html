@@ -125,6 +125,25 @@
   .person a{color:var(--accent);font-weight:600;font-size:14px;
     font-family:ui-monospace,Consolas,monospace}
   .person a:hover{color:var(--accent-hover)}
+  .demoform{max-width:620px;margin:0 auto 40px;text-align:left;background:var(--bg-card);
+    border:1px solid var(--border);border-radius:2px;padding:28px 32px}
+  .demoform .frow{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+  @media (max-width:640px){ .demoform .frow{grid-template-columns:1fr} .demoform{padding:22px 20px} }
+  .demoform label{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text-secondary);margin:16px 0 6px}
+  .demoform input,.demoform textarea{width:100%;padding:11px 12px;font-family:inherit;
+    font-size:15px;color:var(--text-primary);background:var(--bg-secondary);
+    border:1px solid var(--border);border-radius:2px;resize:vertical}
+  .demoform input:focus,.demoform textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 2px #2563eb33}
+  .demoform button{display:block;width:100%;margin-top:22px;padding:13px 28px;border:none;
+    border-radius:2px;background:var(--accent);color:#fff;font-family:inherit;font-weight:600;
+    font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .demoform button:hover{background:var(--accent-hover)}
+  .formok{max-width:620px;margin:0 auto 28px;padding:14px 18px;border:1px solid #16a34a;
+    border-radius:2px;background:#f0fdf4;color:#15803d;font-size:15px;font-weight:500}
+  .ct_or{font-size:13px;color:var(--text-secondary);letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:16px}
   footer{background:#0f172a;color:#94a3b8;padding:48px 24px 32px;margin-top:40px}
   footer .grid{max-width:1100px;margin:0 auto;display:grid;
     grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px}
@@ -290,6 +309,30 @@
   </div>
   <p style="font-size:15px;color:var(--text-secondary);max-width:560px;margin:0 auto 32px;line-height:1.7" data-i18n="ct_p">
     Tell us about your city, your basin or your portfolio, and we'll show you what the water will do.</p>
+  <p class="formok" id="formok" hidden data-i18n="fm_ok">Thank you! Your request has been sent. We'll get back to you shortly.</p>
+  <form class="demoform" action="https://formsubmit.co/muhammedkaya65@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="Eternity Flow — demo request">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://eternityflow.world/?demo=sent#contact">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="frow">
+      <div>
+        <label for="fm-name" data-i18n="fm_name">Name</label>
+        <input id="fm-name" type="text" name="name" required autocomplete="name">
+      </div>
+      <div>
+        <label for="fm-org" data-i18n="fm_org">Organization</label>
+        <input id="fm-org" type="text" name="organization" autocomplete="organization">
+      </div>
+    </div>
+    <label for="fm-email" data-i18n="fm_email">Email</label>
+    <input id="fm-email" type="email" name="email" required autocomplete="email">
+    <label for="fm-msg" data-i18n="fm_msg">Your city, basin or portfolio</label>
+    <textarea id="fm-msg" name="message" rows="4" required></textarea>
+    <button type="submit" data-i18n="fm_btn">Request a Demo</button>
+  </form>
+  <p class="ct_or" data-i18n="ct_or">Or write to us directly</p>
   <div class="people">
     <div class="person">
       <div class="nm" data-i18n="ct_n2">Assoc. Prof. Ömer Ekmekcioğlu</div>
@@ -371,6 +414,11 @@ const TR = {
   div2_p: "Belediyeler, bakanlıklar, sigorta şirketleri ve mühendislik firmaları: pilot projelere ve araştırma iş birliklerine açığız.",
   ct_tag: "İletişim", ct_h2: "Bize Ulaşın",
   ct_p: "Şehrinizi, havzanızı ya da portföyünüzü anlatın, suyun ne yapacağını gösterelim.",
+  fm_name: "Ad Soyad", fm_org: "Kurum", fm_email: "E-posta",
+  fm_msg: "Şehriniz, havzanız veya portföyünüz",
+  fm_btn: "Demo Talep Edin",
+  fm_ok: "Teşekkürler! Talebiniz iletildi. En kısa sürede size dönüş yapacağız.",
+  ct_or: "Ya da doğrudan yazın",
   ct_r1: "Kurucu, Eternity Labs",
   ct_n2: "Doç. Dr. Ömer Ekmekcioğlu", ct_r2: "İstanbul Teknik Üniversitesi",
   f_about: "Eternity Labs imzalı küresel otomatik taşkın simülasyon platformu.",
@@ -401,6 +449,11 @@ btn.onclick = () => {
   apply();
 };
 apply();
+
+// Show the thank-you note when FormSubmit redirects back after a submission.
+if (new URLSearchParams(location.search).has("demo")) {
+  document.getElementById("formok").hidden = false;
+}
 
 // Parallax dividers: the imagery drifts with the page scroll (app parity).
 const pimgs = document.querySelectorAll(".divider img");
